@@ -3,14 +3,36 @@ from django.core.urlresolvers import reverse
 from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse, Http404, HttpResponseRedirect
 from .models import Question, Choice
+from django.conf import settings
+from django.core.cache import cache
+import json
+from django.views.decorators.cache import cache_page
+import time
 
 
+def write_to_cache(request):
+    key = 'hahaha'
+    cache.set(key,json.dumps('qqqq'),settings.NEVER_REDIS_TIMEOUT)
+    return render(request,'firstapp/index.html')
+
+def read_from_cache(request):
+    key = 'hahaha'
+    value = cache.get(key)
+    if not value:
+        data = None
+    else:
+        data = json.loads((value))
+        return render(request,'firstapp/index.html',{'show':data})
+
+
+@cache_page(5)
 def index(request):
     latest_question_list = Question.objects.order_by('-pub_date')[:5]
     print(latest_question_list)
     # output = ','.join([q.question_text for q in latest_question_list])
     context = {
-        'latest_question_list':latest_question_list
+        'latest_question_list':latest_question_list,
+        'time':time.strftime("%H:%M:%S",time.localtime())
     }
     return render(request, 'firstapp/index.html',context)
 

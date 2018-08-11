@@ -3,8 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <title>首页</title>
+    <script type="text/javascript">
+        function startTime()
+        {
+        var today=new Date()
+        var h=today.getHours()
+        var m=today.getMinutes()
+        var s=today.getSeconds()
+        // add a zero in front of numbers<10
+        m=checkTime(m)
+        s=checkTime(s)
+        document.getElementById('txt').innerHTML=h+":"+m+":"+s
+        t=setTimeout('startTime()',500)
+        }
+
+        function checkTime(i)
+        {
+        if (i<10)
+          {i="0" + i}
+          return i
+        }
+</script>
 </head>
-<body>
+<body onload="startTime()">
+    <div id="txt"></div>
     {% if latest_question_list %}
     <ul>
         {% for q in latest_question_list %}
@@ -15,5 +37,8 @@
     {% else %}
         <p>No polls are available</p>
     {% endif %}
+    <a href="/index/write/">看redis缓存效果</a>
+    <a href="/index/read/">show</a>
+    {{ show }}
 </body>
 </html>

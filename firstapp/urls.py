@@ -7,4 +7,6 @@ urlpatterns = [
     url(r'^(?P<question_id>[0-9]+)/$', views.detail, name='detail'),
     url(r'^(?P<question_id>[0-9]+)/result/$', views.results, name='results'),
     url(r'^(?P<question_id>[0-9]+)/vote/$', views.vote, name='vote'),
+    url(r'^write/$',views.write_to_cache),
+    url(r'^read/$',views.read_from_cache),
 ]

@@ -81,12 +81,25 @@ DATABASES = {
         'NAME': 'mysite',
         'PORT': 3306,
         'USER': 'root',
-        'HOST': 'localhost',
+        'HOST': '127.0.0.1',
         'PASSWORD': '123456',
     }
 }
 
+# redis
+CACHES = {
+    'default':{
+        'BACKEND':'django_redis.cache.RedisCache',
+        'LOCATION': '127.0.0.1：6379',
+        'OPTIONS': {
+            "CLIENT_CLASS":"django_redis.client.DefaultClient",
+        },
+    },
+}
 
+REDIS_TIME = 7*24*60*60
+CUBES_REDIS_TIMEOUT = 60*60
+NEVER_REDIS_TIMEOUT = 365*24*60*60
 # Password validation
 # https://docs.djangoproject.com/en/1.11/ref/settings/#auth-password-validators
 
